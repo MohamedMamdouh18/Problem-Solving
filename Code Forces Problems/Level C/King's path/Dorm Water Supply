@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define pb push_back
+#define eb emplace_back
+#define se second
+#define fi first
+#define el "\n"
+#define ll long long
+#define all(a)  a.begin(),a.end()
+#define IOS ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define PREC cout.precision(20);
+const ll mod = 1e9 + 7, N = 1e5 + 1;
+vector<vector<int>> adj;
+vector<int> diameter;
+vector<bool> tank, tap, visited;
+vector<pair<pair<int, int>, int>> ans;
+int last, dm;
+
+void dfs(int node) {
+    for (auto child: adj[node]) {
+        last = child;
+        dm = min(dm, diameter[child]);
+        dfs(child);
+    }
+}
+
+void GREEN() {
+    int n, m, x, y, d;
+    map<int, bool> child;
+    cin >> n >> m;
+    adj.resize(n + 1), diameter.resize(n + 1, 1e9), visited.resize(n + 1);
+    for (int i = 0; i < m; ++i) {
+        cin >> x >> y >> d;
+        adj[x].pb(y);
+        child[y] = true;
+        diameter[y] = d;
+    }
+    for (int i = 1; i <= n; ++i) {
+        if (!child[i] && !adj[i].empty()) {
+            dm = 1e9;
+            dfs(i);
+            ans.pb({{i, last}, dm});
+        }
+    }
+    sort(all(ans));
+    cout << ans.size() << el;
+    for (int i = 0; i < ans.size(); ++i) {
+        cout << ans[i].fi.fi << " " << ans[i].fi.se << " "
+             << ans[i].se << el;
+    }
+
+}
+
+int main() {
+    PREC
+    IOS
+    int tc = 1;
+//    cin >> tc;
+    while (tc--) {
+        GREEN();
+    }
+}
