@@ -3,11 +3,8 @@ class Solution {
         int n = matrix.length;
         int m = matrix[0].length;
         for (int i = 0; i < n; i++) {
-            if(matrix[i][0] <= target && matrix[i][m-1] >= target )
-                if (bs(matrix[i], target))
-                    return true;
-                else
-                    break;
+            if (bs(matrix[i], target))
+                return true;
         }
         return false;
     }
